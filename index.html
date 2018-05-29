@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" type="text/css" href="Proposal.css">
-        <meta charset="utf-8">
-        <title>CMPS165 Final Project Proposal</title>
-        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
-    </head>
-    <body>
-        <p><b>Isha Aggarwal (iaggarwa@ucsc.edu)</b></p>
-        <p><b>Nathan Hutchinson McHone (nlhutchi@ucsc.edu)</b></p>
-        <p><b>Greg Wolff (gwolff@ucsc.edu)</b></p>
-        
-        <p>1. Plant-Based Food Alternatives. The purpose of this visualization is to give insight into how people can easily substitute animal products in their diet to plant-based alternatives. We intend to show how a diet with limited or no animal products can still be nutritious, flavorful, and affordable. </p>
 
-        <p>2. The data variables we plan to use in the visualization include: iron, protein, omega-3 and omega-6 fats, vitamin B12, vitamin D, and calcium. These are generally the greatest nutritional concerns for people who are considering switching to a plant-based diet. The data for these variables will be sourced from the following links from the Veg Society and Vegan Society:
+<head>
+    <link rel="stylesheet" type="text/css" href="Proposal.css">
+    <meta charset="utf-8">
+    <title>CMPS165 Final Project Proposal</title>
+    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+    <p>
+        <strong>Isha Aggarwal (iaggarwa@ucsc.edu)</strong>
+    </p>
+    <p>
+        <strong>Nathan Hutchinson McHone (nlhutchi@ucsc.edu)</strong>
+    </p>
+    <p>
+        <strong>Greg Wolff (gwolff@ucsc.edu)</strong>
+    </p>
+
+    <p>1. Plant-Based Food Alternatives. The purpose of this visualization is to give insight into how people can easily substitute
+        animal products in their diet to plant-based alternatives. We intend to show how a diet with limited or no animal
+        products can still be nutritious, flavorful, and affordable. </p>
+
+    <p>2. The data variables we plan to use in the visualization include: iron, protein, omega-3 and omega-6 fats, vitamin B12,
+        vitamin D, and calcium. These are generally the greatest nutritional concerns for people who are considering switching
+        to a plant-based diet. The data for these variables will be sourced from the following links from the Veg Society
+        and Vegan Society:
         <ul>
-            <li><a href="https://www.vegsoc.org/facts/iron">Iron (vegetarian)</a></li>
-            <li><a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/iron">Iron (vegan)</a></li>
-            
-            <li><a href="https://www.vegsoc.org/facts/protein">Protein (vegetarian)</a></li>
-            <li><a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/protein">Protein (vegan)</a></li>
-            
-            <li><a href="https://www.vegsoc.org/facts/fatsomegascholesterol">Omegas (vegetarian)</a></li>
-            <li><a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/omega-3-and-omega-6-fats">Omegas (vegan)</a></li>
-            
-            <li><a href="https://www.vegsoc.org/facts/B12">Vitamin B12 (vegetarian)</a></li>
-            <li><a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/vitamin-b12">Vitamin B12 (vegan)</a></li>
-            
-            <li><a href="https://www.vegsoc.org/facts/vitaminsminerals">Calcium and Vitamin D(vegetarian)</a></li>
-            <li><a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/calcium">Calcium (vegan)</a></li>
-            <li><a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/vitamin-d">Vitamin D (vegan)</a></li>
-        </ul></p>
+            <li>
+                <a href="https://www.vegsoc.org/facts/iron">Iron (vegetarian)</a>
+            </li>
+            <li>
+                <a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/iron">Iron (vegan)</a>
+            </li>
 
-        <p>3.Visualization Design. To achieve our purpose of showing the data to give food alternatives we are setting up a visualization that will allow us to compare food with similar nutritional breakdowns side by side. One side will have food from a non limited balanced diet while the other side will have vegan or vegetarian alternatives(this will be toggled with a filter). Our display will also have a filter in order to change the nutrient that we are interested in displaying at the time. These nutrients will be from our data of nutrients that vegans and vegetarians frequently struggle getting enough of. Each item displayed on our visualization will have a tooltip with additional nutritional information along with serving size and calories. </p>
-        
-        <img src="design.jpg" height="400px" width="400px" class="rotate270">
-		
-        <!--p>4. I was able to find simple image infographics such as <a href="https://visual.ly/community/infographic/food/wondering-about-vegan-diet">this one</a>. However, I did not find any D3 visualizations, as searching "d3 plant alternatives" and similar yields results for foods that are rich in vitamin D.</p-->
-        
-        <p>Github page link: https://ishamartinez.github.io/CMPS165FinalProject/</p>
-        <script type="text/javascript">
-        </script>
-    </body>
+            <li>
+                <a href="https://www.vegsoc.org/facts/protein">Protein (vegetarian)</a>
+            </li>
+            <li>
+                <a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/protein">Protein (vegan)</a>
+            </li>
+
+            <li>
+                <a href="https://www.vegsoc.org/facts/fatsomegascholesterol">Omegas (vegetarian)</a>
+            </li>
+            <li>
+                <a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/omega-3-and-omega-6-fats">Omegas (vegan)</a>
+            </li>
+
+            <li>
+                <a href="https://www.vegsoc.org/facts/B12">Vitamin B12 (vegetarian)</a>
+            </li>
+            <li>
+                <a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/vitamin-b12">Vitamin B12 (vegan)</a>
+            </li>
+
+            <li>
+                <a href="https://www.vegsoc.org/facts/vitaminsminerals">Calcium and Vitamin D(vegetarian)</a>
+            </li>
+            <li>
+                <a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/calcium">Calcium (vegan)</a>
+            </li>
+            <li>
+                <a href="https://www.vegansociety.com/resources/nutrition-and-health/nutrients/vitamin-d">Vitamin D (vegan)</a>
+            </li>
+        </ul>
+    </p>
+
+    <p>3.Visualization Design. To achieve our purpose of showing the data to give food alternatives we are setting up a visualization
+        that will allow us to compare food with similar nutritional breakdowns side by side. One side will have food from
+        a non limited balanced diet while the other side will have vegan or vegetarian alternatives(this will be toggled
+        with a filter). Our display will also have a filter in order to change the nutrient that we are interested in displaying
+        at the time. These nutrients will be from our data of nutrients that vegans and vegetarians frequently struggle getting
+        enough of. Each item displayed on our visualization will have a tooltip with additional nutritional information along
+        with serving size and calories. </p>
+
+    <img src="design.jpg" height="400px" width="400px" class="rotate270">
+
+    <!--p>4. I was able to find simple image infographics such as <a href="https://visual.ly/community/infographic/food/wondering-about-vegan-diet">this one</a>. However, I did not find any D3 visualizations, as searching "d3 plant alternatives" and similar yields results for foods that are rich in vitamin D.</p-->
+
+    <p>Github page link: https://ishamartinez.github.io/CMPS165FinalProject/</p>
+    <script type="text/javascript">
+    </script>
+</body>
+
 </html>
