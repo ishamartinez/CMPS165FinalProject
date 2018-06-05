@@ -1,0 +1,16 @@
+food,nutrient,category,mg,size
+"Pork","Iron","Animal",0.7,85
+"Beef","Iron","Animal",2.2,85
+"Chickpeas","Iron","Vegan",12.5,200
+"Lentils","Iron","Vegan",6.6,198
+"Beans","Iron","Vegan",9.8,193
+"Tofu","Iron","Vegan",6.6,124
+"Kale","Iron","Vegan",2.0,137
+"Broccoli","Iron","Vegan",1.1,148
+"Almonds","Iron","Vegan",5.3,143
+"Cashews","Iron","Vegan",6.7,100
+"Dates","Iron","Vegan",1.0,100
+"Quinoa","Iron","Vegan",5.0,100
+"Molasses","Iron","Vegan",0.9,20
+"Cereal","Iron","Vegan",3.4,81
+"Eggs","Iron","Vegetarian",1.2,100
