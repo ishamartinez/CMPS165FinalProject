@@ -141,3 +141,29 @@ header {
   justify-content: center;
   padding: 20px 0 30px;
 }
+
+.node {
+  rect {
+    cursor: move;
+    fill-opacity: .9;
+    shape-rendering: crispEdges;
+  }
+  text {
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff;  
+  }
+}
+
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+  &:hover {
+    stroke-opacity: .5;
+  }
+}
+
+.svg-div{
+  display: inline-block;
+  margin: 0 auto;
+}
