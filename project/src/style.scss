@@ -93,6 +93,17 @@ header {
   padding: 80px;
   max-width: 750px;
   margin: 40px auto 30px;
+  .spacer {
+    width: 100px;
+    margin: 17px 0;
+    height: 2px;
+    background: #eaeaea;
+  }
+  p {
+    font-size: 1em;
+    text-align: center;
+    margin: 0;
+  }
 }
 
 .food-list {
