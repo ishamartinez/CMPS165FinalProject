@@ -7,8 +7,8 @@ food,nutrient,category,nutrientAmt,size
 "Mussels","Vitamin B12","Animal",20.4,85
 "Crab","Vitamin B12","Animal",9.8,85
 "Eggs","Vitamin B12","Vegetarian",0.9,100
-"Milk","Vitamin B12","Vegetarian",0.5,100
-"Soy Milk","Vitamin B12","Vegan",1.2,100
+"Milk","Vitamin B12","Vegetarian",0.5,244
+"Soy Milk","Vitamin B12","Vegan",1.2,244
 "Yogurt","Vitamin B12","Vegetarian",0.5,175
 "Cheese","Vitamin B12","Vegetarian",1.7,50
 "Bran Cereal","Vitamin B12","Vegan",24,100
