@@ -69,20 +69,19 @@ img {
 }
 
 main {
-  width: 750px;
-  margin: 0 auto;
+  max-width: 912px;
+  margin: 0 auto 40px;
   @media (max-width: $br-small) {
     max-width: 90%;
     margin: 0 auto;
   }
-  display: grid;
-  grid-template-areas: "meats sankey substitutes";  
 }
 
-.food-list {
-  border: 1px solid #eaeaea;
-  height: calc(80vh - 230px);
+.substitution-list {
+  display: grid;
+  grid-template-columns: repeat(3, 33%);  
 }
+
 header {
   display: flex;
   flex-direction: column;
@@ -93,5 +92,52 @@ header {
   border-radius: 10px;
   padding: 80px;
   max-width: 750px;
-  margin: 70px auto;
+  margin: 40px auto 30px;
+}
+
+.food-list {
+  border: 1px solid #eaeaea;
+  height: calc(80vh - 150px);
+  overflow-y: scroll;
+}
+
+.food-item {
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  height: 100px;
+  margin: 15px 15px 0 15px;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  p {
+    margin: 0;
+  }
+  img {
+    margin: 10px;
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    box-shadow: unset;
+  }
+  &.removed {
+    opacity: 0.5;
+    h4:after {
+      content: " ❌";
+    }
+  }
+  &.substitute {
+    opacity: 0.5;
+    h4:after {
+      content: " ✅";
+    }
+  }
+}
+
+.nutrient-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0 30px;
 }
