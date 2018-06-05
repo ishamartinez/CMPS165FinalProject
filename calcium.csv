@@ -1,0 +1,19 @@
+food,nutrient,category,nutrientAmt,size
+"Beef","Calcium","Animal",15,85
+"Pork","Calcium","Animal",16,85
+"Chicken","Calcium","Animal",48,85
+"Turkey","Calcium","Animal",14,100
+"Salmon","Calcium","Animal",18,178
+"Canned Sardines","Calcium","Animal",351,92
+"Milk","Calcium","Vegetarian",305,244
+"Yogurt","Calcium","Vegetarian",187,170
+"Cheese","Calcium","Vegetarian",400,50
+"Kale","Calcium","Vegan",202,134
+"Cashews","Calcium","Vegan",37,100
+"Almonds","Calcium","Vegan",264,100
+"Tofu","Calcium","Vegan",350,100
+"Molasses","Calcium","Vegan",41,20
+"Soy Milk","Calcium","Vegan",61,244
+"Okra","Calcium","Vegan",82,100
+"Chia Seeds","Calcium","Vegan",233,28
+"Figs","Calcium","Vegan",133,100
