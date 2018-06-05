@@ -13,3 +13,4 @@ food,nutrient,category,nutrientAmt,size
 "Quinoa","iron","vegan",5.0,100
 "Molasses","iron","vegan",0.9,20
 "Cereal","iron","vegan",3.4,81
+"Eggs","iron","vegetarian",1.2,100
