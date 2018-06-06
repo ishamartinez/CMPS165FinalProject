@@ -382,7 +382,8 @@ const slugify = s => s.replace(/\s/g, "-").toLowerCase();
 const upper = s => s.charAt(0).toUpperCase() + s.substr(1);
 const unit = n => ({
   protein: "g",
-  iron: "mg"
+  iron: "mg",
+  vitb: "µg"
 })[n];
 
 const createItem = (nutrient, type, name, serving, size) => {
