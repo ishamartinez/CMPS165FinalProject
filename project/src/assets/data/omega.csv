@@ -1,6 +1,6 @@
 food,nutrient,category,nutrientAmt,size
-"Fish","Omega-3","Animal",1.9,100
-"Chia Seeds","Omega-3","Vegan",5,28
-"Flax Seeds","Omega-3","Vegan",9.6,26
-"Walnuts","Omega-3","Vegan",2.5,28
-"Hemp Seeds","Omega-3","Vegan",3,30
+"Fish","omega","animal",1.9,100
+"Chia Seeds","omega","vegan",5,28
+"Flax Seeds","omega","vegan",9.6,26
+"Walnuts","omega","vegan",2.5,28
+"Hemp Seeds","omega","vegan",3,30

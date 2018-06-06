@@ -1,20 +1,20 @@
 food,nutrient,category,nutrientAmt,size
-"Beef","Calcium","Animal",15,85
-"Pork","Calcium","Animal",16,85
-"Chicken","Calcium","Animal",48,85
-"Turkey","Calcium","Animal",14,100
-"Salmon","Calcium","Animal",18,178
-"Canned Sardines","Calcium","Animal",351,92
-"Milk","Calcium","Vegetarian",305,244
-"Yogurt","Calcium","Vegetarian",187,170
-"Cheese","Calcium","Vegetarian",400,50
-"Kale","Calcium","Vegan",202,134
-"Cashews","Calcium","Vegan",37,100
-"Almonds","Calcium","Vegan",264,100
-"Tofu","Calcium","Vegan",350,100
-"Molasses","Calcium","Vegan",41,20
-"Soy Milk","Calcium","Vegan",61,244
-"Okra","Calcium","Vegan",82,100
-"Chia Seeds","Calcium","Vegan",233,28
-"Figs","Calcium","Vegan",133,100
-"Eggs","Calcium","Vegetarian",50,100
+"Beef","calcium","animal",15,85
+"Pork","calcium","animal",16,85
+"Chicken","calcium","animal",48,85
+"Turkey","calcium","animal",14,100
+"Salmon","calcium","animal",18,178
+"Canned Sardines","calcium","animal",351,92
+"Milk","calcium","vegetarian",305,244
+"Yogurt","calcium","vegetarian",187,170
+"Cheese","calcium","vegetarian",400,50
+"Kale","calcium","vegan",202,134
+"Cashews","calcium","vegan",37,100
+"Almonds","calcium","vegan",264,100
+"Tofu","calcium","vegan",350,100
+"Molasses","calcium","vegan",41,20
+"Soy Milk","calcium","vegan",61,244
+"Okra","calcium","vegan",82,100
+"Chia Seeds","calcium","vegan",233,28
+"Figs","calcium","vegan",133,100
+"Eggs","calcium","vegetarian",50,100
