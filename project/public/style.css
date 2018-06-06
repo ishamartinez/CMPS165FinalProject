@@ -561,7 +561,6 @@ img {
   border-radius: 5px; }
 
 main {
-  max-width: 912px;
   margin: 0 auto 40px; }
   @media (max-width: 750px) {
     main {
@@ -583,10 +582,19 @@ header {
   padding: 80px;
   max-width: 750px;
   margin: 40px auto 30px; }
+  header .spacer {
+    width: 100px;
+    margin: 17px 0;
+    height: 2px;
+    background: #eaeaea; }
+  header p {
+    font-size: 1em;
+    text-align: center;
+    margin: 0; }
 
 .food-list {
   border: 1px solid #eaeaea;
-  height: calc(80vh - 150px);
+  height: 80vh;
   overflow-y: scroll; }
 
 .food-item {

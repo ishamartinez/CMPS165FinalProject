@@ -75,77 +75,6 @@ const d3 = __webpack_require__(2);
 const $ = __webpack_require__(3);
 
 
-const state = {
-  'nutrient': '',
-  'animal': [],
-  'veg': []
-};
-
-$('.nutrients').change(() => {
-  state.nutrient = $(".nutrients option:selected")[0].value;
-  $('.food-list').empty();
-  selectNutrient();
-  // document.querySelector('#state').innerHTML = JSON.stringify(state, null, 4);
-});
-
-const slugify = s => s.replace(/\s/g, "-").toLowerCase();
-const upper = s => s.charAt(0).toUpperCase() + s.substr(1);
-const unit = n => ({
-  "protein": "g",
-  "iron": "mg"
-})[n];
-
-const createItem = (nutrient, type, name, serving, size) => {
-  const item = $('.food-list' + (type === 'animal' ? '.animal' : '.veg')).append($('<div/>').attr("id", slugify(name)).addClass("food-item").html(`
-      <img src="./assets/images/${slugify(name)}.png">
-      <div>
-        <h4>${name}</h4>
-        <p>${upper(nutrient)}: ${serving} ${unit(nutrient)}<br>
-           Size: ${size}
-        </p>
-      </div>
-      `).click(el => {
-    el.currentTarget.parentNode.classList[1];
-    if (el.currentTarget.parentNode.classList.contains('animal') && !el.currentTarget.classList.contains('removed')) {
-      el.currentTarget.classList.add('removed');
-      state.animal.push(el.currentTarget.id);
-    } else {
-      el.currentTarget.classList.remove('removed');
-      state.animal = state.animal.filter(e => e !== el.currentTarget.id);
-    }
-    if (el.currentTarget.parentNode.classList.contains('veg') && !el.currentTarget.classList.contains('substitute')) {
-      el.currentTarget.classList.add('substitute');
-      state.veg.push(el.currentTarget.id);
-    } else {
-      el.currentTarget.classList.remove('substitute');
-      state.veg = state.veg.filter(e => e !== el.currentTarget.id);
-    }
-    document.querySelector('#state').innerHTML = JSON.stringify(state, null, 4);
-  }));
-};
-
-const selectNutrient = () => {
-  d3.csv(`./assets/data/${state.nutrient}.csv`, (error, data) => {
-    data.forEach(el => createItem(state.nutrient, el.category, el.food, el.nutrientAmt, el.size));
-  });
-};
-
-var units = "Widgets";
-
-var margin = { top: 10, right: 200, bottom: 10, left: 200 },
-    width = 1500 - margin.left - margin.right,
-    height = 900 - margin.top - margin.bottom;
-
-var formatNumber = d3.format(",.0f"),
-    // zero decimal places
-format = function (d) {
-  return formatNumber(d) + " " + units;
-},
-    color = d3.scale.category20();
-
-// append the svg canvas to the page
-var svg = d3.select("#chart").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 d3.sankey = function () {
   var sankey = {},
       nodeWidth = 24,
@@ -199,7 +128,7 @@ d3.sankey = function () {
   };
 
   sankey.link = function () {
-    var curvature = .5;
+    var curvature = 0.5;
 
     function link(d) {
       var x0 = d.source.x + d.source.dx,
@@ -307,7 +236,7 @@ d3.sankey = function () {
     initializeNodeDepth();
     resolveCollisions();
     for (var alpha = 1; iterations > 0; --iterations) {
-      relaxRightToLeft(alpha *= .99);
+      relaxRightToLeft(alpha *= 0.99);
       resolveCollisions();
       relaxLeftToRight(alpha);
       resolveCollisions();
@@ -436,35 +365,154 @@ d3.sankey = function () {
   return sankey;
 };
 
+const state = {
+  nutrient: "",
+  animal: [],
+  veg: []
+};
+
+$(".nutrients").change(() => {
+  state.nutrient = $(".nutrients option:selected")[0].value;
+  $(".food-list").empty();
+  selectNutrient();
+  // document.querySelector('#state').innerHTML = JSON.stringify(state, null, 4);
+});
+
+const slugify = s => s.replace(/\s/g, "-").toLowerCase();
+const upper = s => s.charAt(0).toUpperCase() + s.substr(1);
+const unit = n => ({
+  protein: "g",
+  iron: "mg"
+})[n];
+
+const createItem = (nutrient, type, name, serving, size) => {
+  const item = $(".food-list" + (type === "animal" ? ".animal" : ".veg")).append($("<div/>").attr("id", slugify(name)).addClass("food-item").html(`
+      <img src="./assets/images/${slugify(name)}.png">
+      <div>
+        <h4>${name}</h4>
+        <p>${upper(nutrient)}: ${serving} ${unit(nutrient)}<br>
+           Serving Size: ${size}g
+        </p>
+      </div>
+      `).click(el => {
+    el.currentTarget.parentNode.classList[1];
+    if (el.currentTarget.parentNode.classList.contains("animal") && !el.currentTarget.classList.contains("removed")) {
+      el.currentTarget.classList.add("removed");
+      state.animal.push(el.currentTarget.id);
+    } else {
+      el.currentTarget.classList.remove("removed");
+      state.animal = state.animal.filter(e => e !== el.currentTarget.id);
+    }
+    if (el.currentTarget.parentNode.classList.contains("veg") && !el.currentTarget.classList.contains("substitute")) {
+      el.currentTarget.classList.add("substitute");
+      state.veg.push(el.currentTarget.id);
+    } else {
+      el.currentTarget.classList.remove("substitute");
+      state.veg = state.veg.filter(e => e !== el.currentTarget.id);
+    }
+    document.querySelector("#state").innerHTML = JSON.stringify(state, null, 4);
+    // links();
+    if (state.animal.length > 0 && state.veg.length > 0) {
+      clear();
+      node(state.nutrient);
+      state.animal.forEach(el => {
+        state.veg.forEach(el2 => {
+          let currLink = {
+            source: el,
+            target: el2,
+            value: null
+          };
+          graph.nodes.forEach(el3 => {
+            if (el3.category !== 'animal' && el2 === el3.name) {
+              console.log(el2, el3);
+              currLink['value'] = el3.nutrientAmt;
+            }
+            console.log(currLink);
+          });
+          graph.links.push(currLink);
+        });
+      });
+      console.log(graph);
+      draw(state.nutrient, graph);
+    }
+    // graph.nodes.forEach(el => {
+    //   if (el.category === "animal")
+    //     graph.nodes.forEach(el2 => {
+    //       if (el2.category !== "animal")
+    //         graph.links.push({
+    //           source: el.name,
+    //           target: el2.name,
+    //           value: el2.nutrientAmt
+    //         });
+    //     });
+    // });
+  }));
+};
+
+var units;
+const selectNutrient = () => {
+  d3.csv(`./assets/data/${state.nutrient}.csv`, (error, data) => {
+    data.forEach(el => createItem(state.nutrient, el.category, el.food, el.nutrientAmt, el.size));
+  });
+  clear();
+  graph = {};
+  node(state.nutrient);
+  units = unit(state.nutrient);
+};
+
+var margin = { top: 0, right: 4, bottom: 0, left: 0 },
+    width = window.innerWidth / 3 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
+
+var formatNumber = d3.format(",.0f"),
+    // zero decimal places
+format = function (d) {
+  return formatNumber(d) + units;
+},
+    color = d3.scale.category20();
+
+// append the svg canvas to the page
+var svg = d3.select("#chart").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 // Set the sankey diagram properties
 var sankey = d3.sankey().nodeWidth(36).nodePadding(40).size([width, height]);
 
 var path = sankey.link();
 
+let graph;
 // load the data (using the timelyportfolio csv method)
-d3.csv("assets/data/iron.csv", function (error, data) {
-
+const node = nutrient => d3.csv(`assets/data/${nutrient}.csv`, function (error, data) {
   //set up graph in same style as original example but empty
-  let graph = { "nodes": [], "links": [] };
+  graph = { nodes: [], links: [] };
 
   data.forEach(function (d) {
-    graph.nodes.push({ "name": "Pork" });
-    graph.nodes.push({ "name": "Beef" });
-    if (d.category != "animal") graph.nodes.push({ "name": d.food });
-
-    //data.forEach(function (l) {
-    if (d.category != "animal") {
-      graph.links.push({ "source": "Beef",
-        "target": d.food,
-        "value": +d.nutrientAmt });
-      graph.links.push({ "source": "Pork",
-        "target": d.food,
-        "value": +d.nutrientAmt });
+    // graph.nodes.push({ "name": "Pork" });
+    // graph.nodes.push({ "name": "Beef" });
+    // if(d.category != "animal")
+    //     graph.nodes.push({ "name": d.food });
+    // if(d.category != "animal"){
+    //   graph.links.push({ "source": "Beef",
+    //                 "target": d.food,
+    //                 "value": +d.nutrientAmt });
+    //   graph.links.push({ "source": "Pork",
+    //                 "target": d.food,
+    //                 "value": +d.nutrientAmt });
+    // }
+    let node = {
+      name: slugify(d.food),
+      prettyname: d.food,
+      category: d.category
+    };
+    if (d.category !== "animal") {
+      node["nutrientAmt"] = +d.nutrientAmt;
     }
-    //});
+    graph.nodes.push(node);
   });
+});
 
+const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function (error, data) {
   // return only the distinct / unique nodes
+  console.log(graph);
   graph.nodes = d3.keys(d3.nest().key(function (d) {
     return d.name;
   }).map(graph.nodes));
@@ -478,7 +526,7 @@ d3.csv("assets/data/iron.csv", function (error, data) {
   //now loop through each nodes to make nodes an array of objects
   // rather than an array of strings
   graph.nodes.forEach(function (d, i) {
-    graph.nodes[i] = { "name": d };
+    graph.nodes[i] = { name: d };
   });
 
   sankey.nodes(graph.nodes).links(graph.links).layout(32);
@@ -531,6 +579,8 @@ d3.csv("assets/data/iron.csv", function (error, data) {
     link.attr("d", path);
   }
 });
+
+const clear = () => svg.selectAll(`*`).remove();
 
 /***/ }),
 /* 1 */
