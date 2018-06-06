@@ -346,7 +346,10 @@ const unit = n =>
   ({
     protein: "g",
     iron: "mg",
-    vitb: "µg"
+    vitb: "µg",
+    calcium: "mg",
+    omega: "g",
+    vitd: "IU"
   }[n]);
 
 const createItem = (nutrient, type, name, serving, size) => {
