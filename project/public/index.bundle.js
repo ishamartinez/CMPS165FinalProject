@@ -375,7 +375,6 @@ $(".nutrients").change(() => {
   state.nutrient = $(".nutrients option:selected")[0].value;
   $(".food-list").empty();
   selectNutrient();
-  // document.querySelector('#state').innerHTML = JSON.stringify(state, null, 4);
 });
 
 const slugify = s => s.replace(/\s/g, "-").toLowerCase();
@@ -383,7 +382,10 @@ const upper = s => s.charAt(0).toUpperCase() + s.substr(1);
 const unit = n => ({
   protein: "g",
   iron: "mg",
-  vitb: "µg"
+  vitb: "µg",
+  calcium: "mg",
+  omega: "g",
+  vitd: "IU"
 })[n];
 
 const createItem = (nutrient, type, name, serving, size) => {
@@ -411,8 +413,6 @@ const createItem = (nutrient, type, name, serving, size) => {
       el.currentTarget.classList.remove("substitute");
       state.veg = state.veg.filter(e => e !== el.currentTarget.id);
     }
-    document.querySelector("#state").innerHTML = JSON.stringify(state, null, 4);
-    // links();
     if (state.animal.length > 0 && state.veg.length > 0) {
       clear();
       node(state.nutrient);
@@ -424,29 +424,13 @@ const createItem = (nutrient, type, name, serving, size) => {
             value: null
           };
           graph.nodes.forEach(el3 => {
-            if (el3.category !== 'animal' && el2 === el3.name) {
-              console.log(el2, el3);
-              currLink['value'] = el3.nutrientAmt;
-            }
-            console.log(currLink);
+            if (el3.category !== 'animal' && el2 === el3.name) currLink['value'] = el3.nutrientAmt;
           });
           graph.links.push(currLink);
         });
       });
-      console.log(graph);
       draw(state.nutrient, graph);
     }
-    // graph.nodes.forEach(el => {
-    //   if (el.category === "animal")
-    //     graph.nodes.forEach(el2 => {
-    //       if (el2.category !== "animal")
-    //         graph.links.push({
-    //           source: el.name,
-    //           target: el2.name,
-    //           value: el2.nutrientAmt
-    //         });
-    //     });
-    // });
   }));
 };
 
@@ -513,7 +497,6 @@ const node = nutrient => d3.csv(`assets/data/${nutrient}.csv`, function (error, 
 
 const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function (error, data) {
   // return only the distinct / unique nodes
-  console.log(graph);
   graph.nodes = d3.keys(d3.nest().key(function (d) {
     return d.name;
   }).map(graph.nodes));
