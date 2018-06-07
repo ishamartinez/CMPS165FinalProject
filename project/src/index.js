@@ -455,41 +455,26 @@ var sankey = d3
 
 var path = sankey.link();
 
-let graph;
+let graph, data_graph;
 // load the data (using the timelyportfolio csv method)
 const node = nutrient =>
   d3.csv(`assets/data/${nutrient}.csv`, function(error, data) {
     //set up graph in same style as original example but empty
     graph = { nodes: [], links: [] };
 
-    data.forEach(function(d) {
-      // graph.nodes.push({ "name": "Pork" });
-      // graph.nodes.push({ "name": "Beef" });
-      // if(d.category != "animal")
-      //     graph.nodes.push({ "name": d.food });
-      // if(d.category != "animal"){
-      //   graph.links.push({ "source": "Beef",
-      //                 "target": d.food,
-      //                 "value": +d.nutrientAmt });
-      //   graph.links.push({ "source": "Pork",
-      //                 "target": d.food,
-      //                 "value": +d.nutrientAmt });
-      // }
-      let node = {
-        name: slugify(d.food),
-        prettyname: d.food,
-        category: d.category
-      };
-      if (d.category !== "animal") {
-        node["nutrientAmt"] = +d.nutrientAmt;
-      }
-      graph.nodes.push(node);
-    });
+    data.forEach(d =>graph.nodes.push({
+      name: slugify(d.food),
+      prettyname: d.food,
+      category: d.category,
+      nutrientAmt: +d.nutrientAmt
+    }));
+    data_graph = graph;
 });
 
 const draw = (nutrient, graph) =>
   d3.csv(`assets/data/${nutrient}.csv`, function(error, data) {
     // return only the distinct / unique nodes
+    let graph2 = graph;
     graph.nodes = d3.keys(
       d3
         .nest()
@@ -534,7 +519,7 @@ const draw = (nutrient, graph) =>
 
     // add the link titles
     link.append("title").text(function(d) {
-      return d.source.name + " → " + d.target.name + "\n" + format(d.value);
+      return d.source.name + " ← " + d.target.name + "\n" + format(d.value);
     });
 
     // add in the nodes
@@ -560,7 +545,7 @@ const draw = (nutrient, graph) =>
           .on("drag", dragmove)
       );
 
-    // add the rectangles for the nodes
+    // add overflow rectangles
     node
       .append("rect")
       .attr("height", function(d) {
@@ -568,14 +553,63 @@ const draw = (nutrient, graph) =>
       })
       .attr("width", sankey.nodeWidth())
       .style("fill", function(d) {
-        return (d.color = color(d.name.replace(/ .*/, "")));
+        return data_graph.nodes.filter(el => el.name == d.name)[0].category == 'animal' ? '#ff0000' : '#eaeaea';
       })
       .style("stroke", function(d) {
         return d3.rgb(d.color).darker(2);
       })
       .append("title")
       .text(function(d) {
-        return d.name + "\n" + format(d.value);
+        return "extra\n" + format(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt);
+    });
+
+    node
+      .append("rect")
+      .attr("height", function(d) {
+
+      })
+    // find amount of selected animals
+    let animalCount = state.animal.length;
+    let vegDivisions = (subsections) => {
+      for(let i = 0; i < subsections; i++) {
+        node
+          .append("rect")
+          .attr("height", function(d) {
+            return data_graph.nodes.filter(el => el.name == d.name)[0].category == 'animal' ? 0 : d.dy/subsections;
+          })
+          .attr("y", function (d) {
+            return i*(d.dy/subsections);
+          })
+          .attr("width", sankey.nodeWidth())
+          .style("fill", function(d) {
+            return '#eaeaea';
+          })
+          .style("stroke", function(d) {
+            return d3.rgb(d.color).darker(2);
+          })
+          .append("title")
+          .text(function(d) {
+            return d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt);
+          });  
+      }
+    }
+    vegDivisions(animalCount);
+    // add the rectangles for the nodes
+    node
+      .append("rect")
+      .attr("height", function(d) {
+        return ((data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt / d.value) * d.dy) || d.dy;
+      })
+      .attr("width", sankey.nodeWidth())
+      .style("fill", function(d) {
+        return '#eaeaea';
+      })
+      .style("stroke", function(d) {
+        return d3.rgb(d.color).darker(2);
+      })
+      .append("title")
+      .text(function(d) {
+        return d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt);
       });
 
     // add in the title for the nodes
@@ -589,7 +623,7 @@ const draw = (nutrient, graph) =>
       .attr("text-anchor", "end")
       .attr("transform", null)
       .text(function(d) {
-        return d.name;
+        return d.value == 0 ? '' : d.name;
       })
       .filter(function(d) {
         return d.x < width / 2;
