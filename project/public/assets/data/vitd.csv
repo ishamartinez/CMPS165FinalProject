@@ -1,13 +1,13 @@
 food,nutrient,category,nutrientAmt,size
-"Orange Juice","Vitamin D","Vegan",50,125
-"Soy Milk","Vitamin D","Vegan",86,244
-"Milk","Vitamin D","Vegetarian",104,244
-"Yogurt","Vitamin D","Vegetarian",70,174
-"Cheese","Vitamin D","Vegetarian",40,50
-"Eggs","Vitamin D","Vegetarian",70,174
-"Pork","Vitamin D","Animal",50,85
-"Beef","Vitamin D","Animal",150,72
-"Salmon","Vitamin D","Animal",630,178
-"Tuna","Vitamin D","Animal",200,150
-"Almond Milk","Vitamin D","Vegan",90,244
-"Sunlight","Vitamin D","Vegan",800,0
+"Orange Juice","vitd","vegan",50,125
+"Soy Milk","vitd","vegan",86,244
+"Milk","vitd","vegetarian",104,244
+"Yogurt","vitd","vegetarian",70,174
+"Cheese","vitd","vegetarian",40,50
+"Eggs","vitd","vegetarian",70,174
+"Pork","vitd","animal",50,85
+"Beef","vitd","animal",150,72
+"Salmon","vitd","animal",630,178
+"Tuna","vitd","animal",200,150
+"Almond Milk","vitd","vegan",90,244
+"Sunlight","vitd","vegan",800,0
