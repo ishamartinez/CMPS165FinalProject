@@ -192,3 +192,11 @@ header {
   transition: opacity 0.2s ease, transform 0.2s ease;
   pointer-events: none;
 }
+
+.node rect {
+  fill-opacity: 1;
+}
+
+.link {
+  stroke-opacity: 0.2;
+}

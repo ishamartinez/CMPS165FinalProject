@@ -582,7 +582,7 @@ const draw = (nutrient, graph) =>
       })
       .attr("width", sankey.nodeWidth())
       .style("fill", function(d) {
-        return data_graph.nodes.filter(el => el.name == d.name)[0].category == 'animal' ? '#ff0000' : '#eaeaea';
+        return data_graph.nodes.filter(el => el.name == d.name)[0].category == 'animal' ? '#7be26e' : '#eaeaea';
       })
       .style("stroke", function(d) {
         return d3.rgb(d.color).darker(2);
