@@ -650,4 +650,17 @@ header {
   display: inline-block;
   margin: 0 auto; }
 
+.tooltip {
+  border: 1px solid #eaeaea;
+  box-shadow: 1px 3px 10px rgba(28, 27, 88, 0.08);
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none; }
+
 /*# sourceMappingURL=style.css.map*/

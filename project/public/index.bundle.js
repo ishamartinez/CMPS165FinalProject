@@ -430,15 +430,20 @@ const createItem = (nutrient, type, name, serving, size) => {
         });
       });
       draw(state.nutrient, graph);
+    } else {
+      console.log('foo');
     }
   }));
 };
+
+var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0).style("transform", "translateY(6px)");
 
 var units;
 const selectNutrient = () => {
   d3.csv(`./assets/data/${state.nutrient}.csv`, (error, data) => {
     data.forEach(el => createItem(state.nutrient, el.category, el.food, el.nutrientAmt, el.size));
   });
+  state.animal = [], state.veg = [];
   clear();
   graph = {};
   node(state.nutrient);
@@ -452,7 +457,7 @@ var margin = { top: 0, right: 4, bottom: 0, left: 0 },
 var formatNumber = d3.format(",.0f"),
     // zero decimal places
 format = function (d) {
-  return formatNumber(d) + units;
+  return d + units;
 },
     color = d3.scale.category20();
 
@@ -508,8 +513,19 @@ const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function
   });
 
   // add the link titles
-  link.append("title").text(function (d) {
-    return d.source.name + " ← " + d.target.name + "\n" + format(d.value);
+  // link.append("title").text(function(d) {
+  //   return d.source.name + " ← " + d.target.name + "\n" + format(d.value);
+  // });
+
+  link.on('mouseover', d => {
+    tooltip.transition().duration(100).style("opacity", 1).style("transform", "translateY(0)");
+    tooltip.html(d.source.name + " ← " + d.target.name + "\n" + format(d.value)).style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+  });
+  link.on('mousemove', d => {
+    tooltip.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+  });
+  link.on('mouseout', d => {
+    tooltip.transition().duration(100).style("opacity", 0).style("transform", "translateY(6px)");
   });
 
   // add in the nodes
@@ -523,13 +539,18 @@ const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function
 
   // add overflow rectangles
   node.append("rect").attr("height", function (d) {
-    return d.dy;
+    return data_graph.nodes.filter(el => el.name == d.name)[0].category == 'animal' ? d.dy : 0;
   }).attr("width", sankey.nodeWidth()).style("fill", function (d) {
     return data_graph.nodes.filter(el => el.name == d.name)[0].category == 'animal' ? '#ff0000' : '#eaeaea';
   }).style("stroke", function (d) {
     return d3.rgb(d.color).darker(2);
-  }).append("title").text(function (d) {
-    return "extra\n" + format(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt);
+  }).on('mouseover', d => {
+    tooltip.transition().duration(100).style("opacity", 1).style("transform", "translateY(0)");
+    tooltip.html("extra\n" + format(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt)).style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+  }).on('mousemove', d => {
+    tooltip.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+  }).on('mouseout', d => {
+    tooltip.transition().duration(100).style("opacity", 0).style("transform", "translateY(6px)");
   });
 
   node.append("rect").attr("height", function (d) {});
@@ -545,8 +566,13 @@ const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function
         return '#eaeaea';
       }).style("stroke", function (d) {
         return d3.rgb(d.color).darker(2);
-      }).append("title").text(function (d) {
-        return d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt);
+      }).on('mouseover', d => {
+        tooltip.transition().duration(100).style("opacity", 1).style("transform", "translateY(0)");
+        tooltip.html(d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt)).style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+      }).on('mousemove', d => {
+        tooltip.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+      }).on('mouseout', d => {
+        tooltip.transition().duration(100).style("opacity", 0).style("transform", "translateY(6px)");
       });
     }
   };
@@ -558,8 +584,13 @@ const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function
     return '#eaeaea';
   }).style("stroke", function (d) {
     return d3.rgb(d.color).darker(2);
-  }).append("title").text(function (d) {
-    return d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt);
+  }).on('mouseover', d => {
+    tooltip.transition().duration(100).style("opacity", 1).style("transform", "translateY(0)");
+    tooltip.html(d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt)).style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+  }).on('mousemove', d => {
+    tooltip.style("left", d3.event.pageX + 10 + "px").style("top", d3.event.pageY - 50 + "px");
+  }).on('mouseout', d => {
+    tooltip.transition().duration(100).style("opacity", 0).style("transform", "translateY(6px)");
   });
 
   // add in the title for the nodes
