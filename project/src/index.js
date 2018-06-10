@@ -340,6 +340,7 @@ $(".nutrients").change(() => {
   selectNutrient();
 });
 
+
 const slugify = s => s.replace(/\s/g, "-").toLowerCase();
 const unslugify = s => s.replace(/\-/g, " ");
 // const titleCase = s => unslugify(s).replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
@@ -354,6 +355,14 @@ const unit = n =>
     omega: "g",
     vitd: "IU"
   }[n]);
+  const dv = n => ({
+    protein: 62,
+    iron: 8,
+    vitb: 6,
+    calcium: 1000,
+    omega: 300,
+    vitd: 600
+  }[n])
 const createItem = (nutrient, type, name, serving, size) => {
   const item = $(
     ".food-list" + (type === "animal" ? ".animal" : ".veg")
