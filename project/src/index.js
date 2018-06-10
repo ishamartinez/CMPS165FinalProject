@@ -1,5 +1,6 @@
 const d3 = require("d3");
 const $ = require("jquery");
+import { TweenMax } from 'gsap'
 import "./style.scss";
 
 d3.sankey = function() {
@@ -340,7 +341,10 @@ $(".nutrients").change(() => {
 });
 
 const slugify = s => s.replace(/\s/g, "-").toLowerCase();
+const unslugify = s => s.replace(/\-/g, " ");
+// const titleCase = s => unslugify(s).replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
 const upper = s => s.charAt(0).toUpperCase() + s.substr(1);
+const clear = () => svg.selectAll(`*`).remove();
 const unit = n =>
   ({
     protein: "g",
@@ -350,7 +354,6 @@ const unit = n =>
     omega: "g",
     vitd: "IU"
   }[n]);
-
 const createItem = (nutrient, type, name, serving, size) => {
   const item = $(
     ".food-list" + (type === "animal" ? ".animal" : ".veg")
@@ -375,6 +378,10 @@ const createItem = (nutrient, type, name, serving, size) => {
           el.currentTarget.parentNode.classList.contains("animal") &&
           !el.currentTarget.classList.contains("removed")
         ) {
+          /* only 1 animal product can be selected:
+           * state.animal = [];
+           * [...$('.food-item')].forEach(el => el.classList.contains("removed") && el.classList.remove("removed"))
+           */
           el.currentTarget.classList.add("removed");
           state.animal.push(el.currentTarget.id);
         } else {
@@ -409,8 +416,9 @@ const createItem = (nutrient, type, name, serving, size) => {
             })
           })
           draw(state.nutrient, graph);
+          TweenMax.fromTo('#chart', 0.4, { opacity: 0 }, { opacity: 1 })        
         } else {
-          console.log('foo')
+          clear();
         }
       })
   );
@@ -435,9 +443,10 @@ const selectNutrient = () => {
   units = unit(state.nutrient);
 };
 
-var margin = { top: 0, right: 4, bottom: 0, left: 0 },
+
+var margin = { top: 0, right: 21, bottom: 0, left: 0 },
   width = window.innerWidth / 3 - margin.left - margin.right,
-  height = 700 - margin.top - margin.bottom;
+  height = 600 - margin.top - margin.bottom;
 
 var formatNumber = d3.format(",.0f"), // zero decimal places
   format = function(d) {
@@ -464,7 +473,6 @@ var sankey = d3
 var path = sankey.link();
 
 let graph, data_graph;
-// load the data (using the timelyportfolio csv method)
 const node = nutrient =>
   d3.csv(`assets/data/${nutrient}.csv`, function(error, data) {
     //set up graph in same style as original example but empty
@@ -477,12 +485,10 @@ const node = nutrient =>
       nutrientAmt: +d.nutrientAmt
     }));
     data_graph = graph;
-});
-
+  });
 const draw = (nutrient, graph) =>
   d3.csv(`assets/data/${nutrient}.csv`, function(error, data) {
     // return only the distinct / unique nodes
-    let graph2 = graph;
     graph.nodes = d3.keys(
       d3
         .nest()
@@ -562,17 +568,17 @@ const draw = (nutrient, graph) =>
       .attr("transform", function(d) {
         return "translate(" + d.x + "," + d.y + ")";
       })
-      .call(
-        d3.behavior
-          .drag()
-          .origin(function(d) {
-            return d;
-          })
-          .on("dragstart", function() {
-            this.parentNode.appendChild(this);
-          })
-          .on("drag", dragmove)
-      );
+      // .call(
+      //   d3.behavior
+      //     .drag()
+      //     .origin(function(d) {
+      //       return d;
+      //     })
+      //     .on("dragstart", function() {
+      //       this.parentNode.appendChild(this);
+      //     })
+      //     .on("drag", dragmove)
+      // );
 
     // add overflow rectangles
     node
@@ -592,7 +598,7 @@ const draw = (nutrient, graph) =>
           .duration(100)
           .style("opacity", 1)
           .style("transform", "translateY(0)");
-        tooltip.html("extra\n" + format(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt))
+        tooltip.html("extra\n" + format(Math.round(Math.abs(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt) * 100) / 100))
           .style("left", (d3.event.pageX + 10) + "px")
           .style("top", (d3.event.pageY - 50) + "px");
       })
@@ -608,11 +614,7 @@ const draw = (nutrient, graph) =>
           .style("transform", "translateY(6px)");
       });
 
-    node
-      .append("rect")
-      .attr("height", function(d) {
-
-      })
+    
     // find amount of selected animals
     let animalCount = state.animal.length;
     let vegDivisions = (subsections) => {
@@ -632,26 +634,6 @@ const draw = (nutrient, graph) =>
           .style("stroke", function(d) {
             return d3.rgb(d.color).darker(2);
           })
-          .on('mouseover', d => {
-            tooltip.transition()
-              .duration(100)
-              .style("opacity", 1)
-              .style("transform", "translateY(0)");
-            tooltip.html(d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt))
-              .style("left", (d3.event.pageX + 10) + "px")
-              .style("top", (d3.event.pageY - 50) + "px");
-          })
-          .on('mousemove', d => {
-            tooltip
-              .style("left", (d3.event.pageX + 10) + "px")
-              .style("top", (d3.event.pageY - 50) + "px");
-          })
-          .on('mouseout', d => {
-            tooltip.transition()
-              .duration(100)
-              .style("opacity", 0)
-              .style("transform", "translateY(6px)");
-          })
       }
     }
     vegDivisions(animalCount);
@@ -663,64 +645,108 @@ const draw = (nutrient, graph) =>
       })
       .attr("width", sankey.nodeWidth())
       .style("fill", function(d) {
-        return '#eaeaea';
+        return d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt < 0 ? '#ff5f5f' : '#eaeaea';
       })
       .style("stroke", function(d) {
         return d3.rgb(d.color).darker(2);
       })
       .on('mouseover', d => {
+        if (d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt < 0) {
         tooltip.transition()
           .duration(100)
           .style("opacity", 1)
           .style("transform", "translateY(0)");
-        tooltip.html(d.name + "\n" + format(data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt))
+        tooltip.html("missing\n" + format(Math.abs(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt)))
           .style("left", (d3.event.pageX + 10) + "px")
           .style("top", (d3.event.pageY - 50) + "px");
+        }
       })
       .on('mousemove', d => {
+        if (d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt < 0)
         tooltip
           .style("left", (d3.event.pageX + 10) + "px")
           .style("top", (d3.event.pageY - 50) + "px");
       })
       .on('mouseout', d => {
+        if (d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt < 0)
         tooltip.transition()
           .duration(100)
           .style("opacity", 0)
           .style("transform", "translateY(6px)");
+      });
+
+      node
+      .append("rect")
+      .attr("height", function(d) {
+        return d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt < 0 ? d.dy : 0;
       })
+      .attr("width", sankey.nodeWidth())
+      .style("fill", function(d) {
+        return '#eaeaea';
+      })
+      .style("stroke", function(d) {
+        return d3.rgb(d.color).darker(2);
+      })
+
 
     // add in the title for the nodes
     node
       .append("text")
-      .attr("x", -6)
       .attr("y", function(d) {
-        return d.dy / 2;
+        return (d.dy / 2) - 10;
       })
+      .attr("x", d => d.x < (width / 2) ? 6 + sankey.nodeWidth() : -6)
       .attr("dy", ".35em")
-      .attr("text-anchor", "end")
+      .attr("text-anchor", d => d.x < (width / 2) ? "start" : "end")
       .attr("transform", null)
+      .attr("font-size", 14)
       .text(function(d) {
         return d.value == 0 ? '' : d.name;
       })
+      .append('svg:tspan')
+      .attr('x', -6)
+      .attr("text-anchor", "end")
+      .attr("font-size", 12)
+      .attr('dy', 19)
+      .text(d => d.value == 0 ? '' : `${state.nutrient}: ${data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt}${unit(state.nutrient)}`)
       .filter(function(d) {
         return d.x < width / 2;
       })
-      .attr("x", 6 + sankey.nodeWidth())
-      .attr("text-anchor", "start");
+      .attr('x', 6 + sankey.nodeWidth())
+      .attr("text-anchor", "start")
+      .attr('dy', 19)
+      .append('svg:tspan')
+      .attr('x', 6 + sankey.nodeWidth())
+      .attr("text-anchor", "start")
+      .attr("font-size", 12)
+      .attr('dy', 13)
+      .attr('fill', d => d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt > 0 ? '#0c6d00' : '#8e0000')
+      .text(d => `${d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt > 0 ? 'extra:' : 'missing: '} ${Math.round(Math.abs(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt) * 100) / 100}${unit(state.nutrient)}`);
+    
 
     // the function for moving the nodes
-    function dragmove(d) {
-      d3.select(this).attr(
-        "transform",
-        "translate(" +
-          d.x +
-          "," +
-          (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) +
-          ")"
-      );
-      sankey.relayout();
-      link.attr("d", path);
-    }
+    // function dragmove(d) {
+    //   d3.select(this).attr(
+    //     "transform",
+    //     "translate(" +
+    //       d.x +
+    //       "," +
+    //       (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) +
+    //       ")"
+    //   );
+    //   sankey.relayout();
+    //   link.attr("d", path);
+    // }
   });
 
-const clear = () => svg.selectAll(`*`).remove();
+// set default state 
+state.nutrient = "protein";
+selectNutrient();
+clear();
+node(state.nutrient);
+setTimeout(() => {
+  $("#salmon").click()}, 800)
+setTimeout(() => {
+  $("#chickpeas").click()}, 1100)
+setTimeout(() => {
+  $("#lentils").click()}, 1400)

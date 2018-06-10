@@ -79,7 +79,8 @@ main {
 
 .substitution-list {
   display: grid;
-  grid-template-columns: repeat(3, 33%);  
+  grid-template-columns: repeat(3, 33.33%); 
+  margin: 0 2%; 
 }
 
 header {
@@ -106,8 +107,16 @@ header {
   }
 }
 
+.food-list-header {
+  text-align: center;
+  margin-bottom: 1.4em;
+  p {
+    margin-top: 0;
+  }
+}
 .food-list {
   border: 1px solid #eaeaea;
+  border-radius: 5px;
   height: 80vh;
   overflow-y: scroll;
 }
@@ -148,9 +157,12 @@ header {
 
 .nutrient-dropdown {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 0 30px;
+  h4 {
+    margin-bottom: 0.5em;
+  }
 }
 
 .node {
@@ -195,8 +207,14 @@ header {
 
 .node rect {
   fill-opacity: 1;
+  stroke-opacity: 0.2;
+  cursor: default;
 }
 
 .link {
   stroke-opacity: 0.2;
+}
+
+#chart {
+  opacity: 0;
 }
