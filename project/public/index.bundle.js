@@ -3049,7 +3049,7 @@ d3.sankey = function () {
       nodesByBreadth.forEach(function (nodes) {
         nodes.forEach(function (node, i) {
           node.y = i;
-          node.dy = node.value * ky;
+          node.dy = node.value * (ky || 0.01);
         });
       });
 
@@ -3314,7 +3314,7 @@ const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function
     graph.nodes[i] = { name: d };
   });
 
-  sankey.nodes(graph.nodes).links(graph.links).layout(32);
+  sankey.nodes(graph.nodes).links(graph.links).layout(64);
 
   // add in the links
   var link = svg.append("g").selectAll(".link").data(graph.links).enter().append("path").attr("class", "link").attr("d", path).style("stroke-width", function (d) {
