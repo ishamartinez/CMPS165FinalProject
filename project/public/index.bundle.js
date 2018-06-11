@@ -3042,9 +3042,9 @@ d3.sankey = function () {
     }
 
     function initializeNodeDepth() {
-      var ky = d3.min(nodesByBreadth, function (nodes) {
+      var ky = Math.abs(d3.min(nodesByBreadth, function (nodes) {
         return (size[1] - (nodes.length - 1) * nodePadding) / d3.sum(nodes, value);
-      });
+      }));
 
       nodesByBreadth.forEach(function (nodes) {
         nodes.forEach(function (node, i) {
@@ -3188,6 +3188,14 @@ const unit = n => ({
   calcium: "mg",
   omega: "g",
   vitd: "IU"
+})[n];
+const dv = n => ({
+  protein: 62,
+  iron: 8,
+  vitb: 6,
+  calcium: 1000,
+  omega: 300,
+  vitd: 600
 })[n];
 const createItem = (nutrient, type, name, serving, size) => {
   const item = $(".food-list" + (type === "animal" ? ".animal" : ".veg")).append($("<div/>").attr("id", slugify(name)).addClass("food-item").html(`

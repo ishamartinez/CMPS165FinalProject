@@ -197,11 +197,11 @@ d3.sankey = function() {
     }
 
     function initializeNodeDepth() {
-      var ky = d3.min(nodesByBreadth, function(nodes) {
+      var ky = Math.abs(d3.min(nodesByBreadth, function(nodes) {
         return (
           (size[1] - (nodes.length - 1) * nodePadding) / d3.sum(nodes, value)
         );
-      });
+      }));
 
       nodesByBreadth.forEach(function(nodes) {
         nodes.forEach(function(node, i) {
@@ -687,7 +687,7 @@ const draw = (nutrient, graph) =>
       node
       .append("rect")
       .attr("height", function(d) {
-        return d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt < 0 ? d.dy : 0;
+        return (d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt) < 0 ? d.dy : 0;
       })
       .attr("width", sankey.nodeWidth())
       .style("fill", function(d) {
