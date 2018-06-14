@@ -3422,19 +3422,24 @@ const draw = (nutrient, graph) => d3.csv(`assets/data/${nutrient}.csv`, function
     return d.x < width / 2;
   }).attr('x', 6 + sankey.nodeWidth()).attr("text-anchor", "start").attr('dy', 19).append('svg:tspan').attr('x', 6 + sankey.nodeWidth()).attr("text-anchor", "start").attr("font-size", 12).attr('dy', 13).attr('fill', d => d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt > 0 ? '#0c6d00' : '#8e0000').text(d => `${d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt > 0 ? 'extra:' : 'missing: '} ${Math.round(Math.abs(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt) * 100) / 100}${unit(state.nutrient)}`);
 
-  // the function for moving the nodes
-  // function dragmove(d) {
-  //   d3.select(this).attr(
-  //     "transform",
-  //     "translate(" +
-  //       d.x +
-  //       "," +
-  //       (d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))) +
-  //       ")"
-  //   );
-  //   sankey.relayout();
-  //   link.attr("d", path);
-  // }
+  // add legend rect gray
+  // svg.append("rect")
+  //   .attr("class", "legend")
+  //   .attr("x", 20)
+  //   .attr("y", 20)
+  //   .attr("rx", "5px")
+  //   .attr("width", 230)
+  //   .attr("height", 80)
+  //   .attr("stroke", "darkgray")
+  //   .attr("fill", "white");
+
+  svg.append("text").attr("class", "legend_text").attr("x", 60).attr("y", 75).text("Extra Portion");
+
+  svg.append("rect").attr("x", 35).attr("y", 63).attr("height", 15).attr("width", 15).style("fill", "rgb(123, 226, 110)");
+
+  svg.append("text").attr("class", "legend_text").attr("x", 60).attr("y", 47).text("Unsupplemented Portion");
+
+  svg.append("rect").attr("x", 35).attr("y", 35).attr("height", 15).attr("width", 15).style("fill", "rgb(255, 95, 95)");
 });
 
 // set default state 
