@@ -535,7 +535,7 @@ h2 {
   font-weight: 100; }
 
 h3 {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: 100; }
 
 h4 {
@@ -555,6 +555,11 @@ p {
     text-transform: uppercase;
     font-size: 0.85em;
     color: #d8d8d8; }
+
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5em; }
 
 img {
   box-shadow: 0 3px 20px rgba(0, 0, 0, 0.66);
@@ -592,6 +597,16 @@ header {
     font-size: 1em;
     text-align: center;
     margin: 0; }
+
+.food-list-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0; }
+  .food-list-breakdown .food-item {
+    padding: 3px 20px;
+    margin: 10px;
+    width: 285px; }
 
 .food-list-header {
   text-align: center;
@@ -631,6 +646,20 @@ header {
     opacity: 0.5; }
     .food-item.substitute h4:after {
       content: " \2705"; }
+
+.card {
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  margin: 35px auto;
+  padding: 27px 30px 20px;
+  width: 515px;
+  text-align: center;
+  user-select: none;
+  transition: opacity 0.2s ease; }
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr; }
 
 .nutrient-dropdown {
   display: flex;

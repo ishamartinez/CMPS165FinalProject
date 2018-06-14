@@ -3228,8 +3228,13 @@ const createItem = (nutrient, type, name, serving, size) => {
     }
     if (state.animal.length > 0 && state.veg.length > 0) {
       clear();
+      $(".food-list-breakdown").empty();
       node(state.nutrient);
       state.animal.forEach(el => {
+        graph.nodes.forEach(el3 => {
+          if (el3.category === 'animal' && el === el3.name) createBreakdown(state.nutrient, el3.nutrientAmt, el3);
+        });
+        __WEBPACK_IMPORTED_MODULE_0_gsap__["a" /* TweenMax */].fromTo('.food-list-breakdown', 0.4, { opacity: 0 }, { opacity: 1 });
         state.veg.forEach(el2 => {
           let currLink = {
             source: el,
@@ -3245,9 +3250,39 @@ const createItem = (nutrient, type, name, serving, size) => {
       draw(state.nutrient, graph);
       __WEBPACK_IMPORTED_MODULE_0_gsap__["a" /* TweenMax */].fromTo('#chart', 0.4, { opacity: 0 }, { opacity: 1 });
     } else {
+      $(".food-list-breakdown").empty();
       clear();
     }
   }));
+};
+
+const createBreakdown = (nutrient, amt, meat) => {
+  const item = $(".food-list-breakdown").append($("<div/>").attr("id", slugify(name)).addClass("food-item").html(`
+      
+      <div>
+        <p> You are currently supplementing for ${nutrient} with ${sumVeggies(meat.nutrientAmt)} servings of ${meat.name} with 1 serving of ${getList()}.
+        </p>
+      </div>
+      `));
+};
+
+function getList() {
+  var myList = "";
+  var i = 0;
+  for (i = 0; i < state.veg.length; i++) if (state.veg.length === 1) return state.veg;else if (i === 0) myList = state.veg[i];else if (i === state.veg.length - 1) myList = myList + ", and " + state.veg[i];else myList = myList + ", " + state.veg[i];
+  return myList;
+}
+
+function sumVeggies(nutTot) {
+  var sum = 0;
+  state.veg.forEach(el2 => {
+    graph.nodes.forEach(el3 => {
+      if (el3.category !== 'animal' && el2 === el3.name) {
+        sum += el3.nutrientAmt;
+      }
+    });
+  });
+  return Math.round(sum / nutTot * 10) / 10;
 };
 
 var tooltip = d3.select("body").append("div").attr("class", "tooltip").style("opacity", 0).style("transform", "translateY(6px)");
@@ -3257,6 +3292,7 @@ const selectNutrient = () => {
   d3.csv(`./assets/data/${state.nutrient}.csv`, (error, data) => {
     data.forEach(el => createItem(state.nutrient, el.category, el.food, el.nutrientAmt, el.size));
   });
+  $(".food-list-breakdown").empty();
   state.animal = [], state.veg = [];
   clear();
   graph = {};
@@ -3264,7 +3300,7 @@ const selectNutrient = () => {
   units = unit(state.nutrient);
 };
 
-var margin = { top: 0, right: 21, bottom: 0, left: 0 },
+var margin = { top: 0, right: 21, bottom: 30, left: 0 },
     width = window.innerWidth / 3 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
