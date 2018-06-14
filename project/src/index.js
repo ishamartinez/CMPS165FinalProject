@@ -453,7 +453,7 @@ const selectNutrient = () => {
 };
 
 
-var margin = { top: 0, right: 21, bottom: 0, left: 0 },
+var margin = { top: 0, right: 21, bottom: 30, left: 0 },
   width = window.innerWidth / 3 - margin.left - margin.right,
   height = 600 - margin.top - margin.bottom;
 
