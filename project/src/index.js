@@ -732,6 +732,52 @@ const draw = (nutrient, graph) =>
       .attr('fill', d => d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt > 0 ? '#0c6d00' : '#8e0000')
       .text(d => `${d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt > 0 ? 'extra:' : 'missing: '} ${Math.round(Math.abs(d.value - data_graph.nodes.filter(el => el.name == d.name)[0].nutrientAmt) * 100) / 100}${unit(state.nutrient)}`);
     
+     // add legend rect gray
+    svg.append("rect")
+      .attr("class", "legend")
+      .attr("x", 20)
+      .attr("y", 20)
+      .attr("rx", "5px")
+      .attr("width", 230)
+      .attr("height", 70)
+      .attr("stroke", "darkgray")
+      .attr("fill", "white");
+      
+    var legend_text = svg.selectAll("legend_text")
+      .data(data)
+      .enter();
+
+    legend_text.append("text")
+      .attr("class", "legend_text")
+      .attr("x", 50)
+      .attr("y", 40)
+      .attr("dy", "0.32em")
+      .style("font-weight", "bold")
+      .text("Extra Portion");
+      
+      legend_text.append("rect")
+      .attr("x", 30)
+      .attr("y", 30)
+      .attr("height", 15)
+      .attr("width", 15)
+      .style("fill", "rgb(123, 226, 110)")
+      .attr("stroke", "rgb(0, 0, 0)");
+      
+    legend_text.append("rect")
+      .attr("x", 30)
+      .attr("y", 60)
+      .attr("height", 15)
+      .attr("width", 15)
+      .style("fill", "rgb(255, 95, 95)")
+      .attr("stroke", "rgb(0, 0, 0)");
+      
+     legend_text.append("text")
+      .attr("class", "legend_text")
+      .attr("x", 50)
+      .attr("y", 40)
+      .attr("dy", "2.32em")
+      .style("font-weight", "bold")
+      .text("Unsupplemented Portion");
 
     // the function for moving the nodes
     // function dragmove(d) {
