@@ -113,6 +113,18 @@ header {
   }
 }
 
+.food-list-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0;
+  .food-item {
+    padding: 3px 20px;
+    margin: 10px;
+    width: 285px;
+  }
+}
+
 .food-list-header {
   text-align: center;
   margin-bottom: 1.4em;
@@ -165,8 +177,8 @@ header {
   border: 1px solid #eaeaea;
   border-radius: 5px;
   margin: 35px auto;
-  padding: 27px 30px 11px;
-  width: 485px;
+  padding: 27px 30px 20px;
+  width: 515px;
   text-align: center;
   user-select: none;
   transition: opacity 0.2s ease;
@@ -174,9 +186,7 @@ header {
 
 .two-col {
   display: grid;
-  grid-template: 
-  "A B
-  C D";
+  grid-template-columns: 1fr 1fr;
 }
 
 .nutrient-dropdown {
